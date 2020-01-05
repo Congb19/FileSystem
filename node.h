@@ -12,7 +12,7 @@
 using namespace std;
 
 struct addr {
-    int begin;
+    int begin=-1;
     int length;
 };
 struct info {

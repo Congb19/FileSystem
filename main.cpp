@@ -16,15 +16,27 @@ using namespace std;
 int main() {
     disk disk1;
     filesys filesys1;
-    tree testtree;
+    tree tree1;
 
-    addr i = disk1.write("123");
+    cout<<"init"<<endl;
+//    addr i = disk1.write("123");
+//    disk1.write("000000");
+//    addr j = disk1.write("456");
+//
+    addr i{1,2};
+    info info1, info2, info3, info4;
+    info1={"file1", 0, i};
+//    info4={"file4", 0};
 
-    info info,info2, info3, info4, info5, info6, info7;
-    info={"file1", 0, i};
+    cout<<"add"<<endl;
+    filesys1.file.insert_child(filesys1.file.root, info1);
 
-    testtree.show(testtree.root, 0);
+
+    filesys1.file.show(filesys1.file.root, 0);
+
     cout << "Hello, World!" << endl;
+    filesys1.go();
+
     system("pause");
     return 0;
 }

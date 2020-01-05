@@ -10,15 +10,32 @@
 #include <vector>
 #include "disk.h"
 #include "node.h"
+#include "tree.h"
 
 using namespace std;
 
 class filesys {
 public:
+
+    tree file;
+
     filesys();
+    ~filesys();
+
+    string cmd();
+    string dirname();
+    void splitcmd(string cmd);
+
+    void help(string cmd);
+    void ls();
+    void exit();
+
+    void go();
+
 private:
     node *currdir;
-    vector<string> currdirname;
+    vector<string> currdirnames;
+    disk disk;
 };
 
 

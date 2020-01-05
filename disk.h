@@ -29,6 +29,8 @@ public:
     bool set(int start, int len, bool usage);
     bool use(int start, int len);
     bool free(int start, int len);
+    int nearfit(int len);
+    int bestfit(int len);
 
     addr write(string data);
     string read(int start, int len);
@@ -36,6 +38,7 @@ public:
 
 private:
     vector<block> datas;
+    int frees;
 };
 
 
