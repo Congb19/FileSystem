@@ -24,6 +24,7 @@ void tree::insert_here(node *q, info &t) {
 void tree::insert_child(node *q, info &t) {
     size++;
     node *p=new node(t);
+    q->child=p;
     p->parent=q;
 }
 
@@ -62,7 +63,8 @@ void tree::delete_self(node *p) {
 }
 
 void tree::show(node *q, int d) {
-    node *p=q;
+    node *p=q->child;
+    if (d > 1) return;
     if (p == nullptr) return;
     while (p!= nullptr) {
         if (d != 0) {
@@ -71,12 +73,13 @@ void tree::show(node *q, int d) {
         for (int i = 0; i < d*2; i++) {
             cout << " ";
         }
-        if (p->next == nullptr) {
-            cout << "+-";
-        }
-        else {
-            cout << "+-";
-        }
+//        if (p->next == nullptr) {
+//            cout << "+-";
+//        }
+//        else {
+//            cout << "+-";
+//        }
+        cout << "+-";
         cout << p->data.name << endl;
         show(p, d+1);
         p = p->next;

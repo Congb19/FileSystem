@@ -68,21 +68,21 @@ void filesys::splitcmd(string cmd) {
 
 void filesys::help(string cmd) {
     if(cmd=="all") {
-        cout << "ls	æ˜¾ç¤ºæ–‡ä»¶ç›®å½•" << endl;
-        cout << "cd	[path] path æ”¹å˜å½“å‰ç›®å½•" << endl;
-        cout << "mkdir [name] åˆ›å»ºå­ç›®å½•[name]" << endl;
-        cout << "rm -rf/-f [name] åˆ é™¤æ–‡ä»¶æˆ–æ–‡ä»¶å¤¹[name]" << endl;
-        cout << "mv [oldName] [newName] å°†åä¸º[oldName]çš„æ–‡ä»¶é‡å‘½åä¸º[newName]" << endl;
-//        cout << "create [name] åœ¨å½“å‰æ–‡ä»¶å¤¹ä¸‹åˆ›å»º[name]æ–‡ä»¶,å¹¶è¾“å…¥æ–‡ä»¶å†…å®¹" << endl;
-//        cout << "cp [path1] [path2] å°†[path1]æ–‡ä»¶æˆ–æ–‡ä»¶å¤¹æ‹·è´åˆ°[path2]ä¸‹" << endl;
-//        cout << "exit é€€å‡º" << endl;
+        cout << "exit ÍË³ö" << endl;
+        cout << "ls ÏÔÊ¾ÎÄ¼þÄ¿Â¼" << endl;
+        cout << "cd [path] ¸Ä±äµ±Ç°Ä¿Â¼" << endl;
+        cout << "mkdir [name] ´´½¨×ÓÄ¿Â¼£ºname" << endl;
+        cout << "rm -rf/-f [name] É¾³ýÎÄ¼þ»òÎÄ¼þ¼Ð£ºname" << endl;
+        cout << "mv [old] [new] ½«ÃûÎªoldµÄÎÄ¼þÖØÃüÃûÎªnew" << endl;
+        cout << "cp [path1] [path2] ½«path1ÎÄ¼þ»òÎÄ¼þ¼Ð¿½±´µ½path2ÏÂ" << endl;
+        cout << "create [name] ÔÚµ±Ç°ÎÄ¼þ¼ÐÏÂ´´½¨nameÎÄ¼þ²¢ÊäÈëÄÚÈÝ" << endl;
     }
-//    if (cmd=="ls") {
-//        cout << "ls	æ˜¾ç¤ºæ–‡ä»¶ç›®å½•" << endl;
-//    }
-//    if (cmd=="exit") {
-//        cout << "exit é€€å‡º" << endl;
-//    }
+    if (cmd=="ls") {
+        cout << "ls ÏÔÊ¾ÎÄ¼þÄ¿Â¼" << endl;
+    }
+    if (cmd=="exit") {
+        cout << "exit ÍË³ö" << endl;
+    }
 }
 void filesys::ls() {
 

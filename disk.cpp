@@ -10,7 +10,7 @@ disk::disk() {
     datas.resize(DISK_SIZE+1);
     datas[DISK_SIZE]=end;
     //init
-    for (int i = 0; i < DISK_SIZE; ++i) {
+    for (int i = 0; i < DISK_SIZE-1; ++i) {
         block t;
         datas[i] = t;
     }
@@ -85,13 +85,14 @@ addr disk::write(string s) {
     addr res;
     int len=s.length(), blocks;
     blocks=len/BLOCK_SIZE;
+    if (blocks>frees) return res;
     res.length=blocks;
     int index=0;
-    int place=nearfit(blocks);
-    if (blocks>frees) return res;
+    int place=bestfit(blocks);
     if (len == 0) return res;
     if (place==-1) return res;
-    if (use(index, blocks)==false) return res;
+    bool use1 = use(index, blocks);
+    if (use1==false) return res;
     //
     for (int i = 0; i < blocks; ++i) {
         string t;
