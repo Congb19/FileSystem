@@ -17,8 +17,10 @@ tree::~tree() {
 void tree::insert_here(node *q, info &t) {
     size++;
     node *p=new node(t);
-    q->next=p;
     p->parent=q->parent;
+    while(q->next!=nullptr)
+        q=q->next;
+    q->next=p;
 }
 
 void tree::insert_child(node *q, info &t) {
@@ -28,11 +30,26 @@ void tree::insert_child(node *q, info &t) {
     p->parent=q;
 }
 
+void tree::insert_here(node *q, node *t) {
+    t->parent=q->parent;
+    while(q->next!=nullptr)
+        q=q->next;
+    q->next=t;
+}
+
+void tree::insert_child(node *q, node *t) {
+    q->child=t;
+    t->parent=q;
+}
 node* tree::find(node *q, info &t) {
     node *p=q;
-    while (p->next!=nullptr && p->next->data.name != t.name) {
-        p=p->next;
+    while (p->next!=nullptr) {
+        if(p->data.name!=t.name){
+            p=p->next;
+        }
+        else break;
     }
+    if(p->data.name!=t.name) return q;
     return p;
 }
 
@@ -55,7 +72,10 @@ void tree::delete_self(node *p) {
         p->parent->child=p->next;
     }
     else {
-        node *t=find(p->parent->child, p->data);
+        node *t=p->parent->child;
+        while (t->next->data.name!=p->data.name){
+            t=t->next;
+        }
         t->next=p->next;
     }
     delete_child(p);
@@ -64,7 +84,6 @@ void tree::delete_self(node *p) {
 
 void tree::show(node *q, int d) {
     node *p=q->child;
-    if (d > 1) return;
     if (p == nullptr) return;
     while (p!= nullptr) {
         if (d != 0) {
@@ -73,13 +92,7 @@ void tree::show(node *q, int d) {
         for (int i = 0; i < d*2; i++) {
             cout << " ";
         }
-//        if (p->next == nullptr) {
-//            cout << "+-";
-//        }
-//        else {
-//            cout << "+-";
-//        }
-        cout << "+-";
+        cout << "+--";
         cout << p->data.name << endl;
         show(p, d+1);
         p = p->next;

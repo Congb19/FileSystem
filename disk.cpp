@@ -41,12 +41,16 @@ bool disk::free(int start, int len) {
 int disk::nearfit(int len) {
     int res=-1;
     int blocks=0;
+
+    int t=len/BLOCK_SIZE+1;
+    if(len%BLOCK_SIZE==0)t--;
+
     for (int i = 0; i < DISK_SIZE; ++i) {
         if (datas[i].used==false) {
             blocks++;
         }
-        else if(blocks>=len) {
-            return i-blocks;
+        if(blocks>=t) {
+            return i-blocks+1;
         }
     }
     return res;
@@ -60,7 +64,7 @@ int disk::bestfit(int len) {
             blocks++;
         }
         else if(blocks==len) {
-            return i-blocks;
+            return i-blocks+1;
         }
         else if(blocks<len) {
             blocks=0;
@@ -68,11 +72,11 @@ int disk::bestfit(int len) {
         else {
             if (minblocks==0) {
                 minblocks=blocks;
-                res=i-blocks;
+                res=i-blocks+1;
             }
             else if(minblocks>blocks) {
                 minblocks=blocks;
-                res=i-blocks;
+                res=i-blocks+1;
             }
             else {
                 continue;
@@ -84,17 +88,17 @@ int disk::bestfit(int len) {
 addr disk::write(string s) {
     addr res;
     int len=s.length(), blocks;
-    blocks=len/BLOCK_SIZE;
+    blocks=len/BLOCK_SIZE+1;
+    if(len%BLOCK_SIZE==0)blocks--;
     if (blocks>frees) return res;
     res.length=blocks;
-    int index=0;
-    int place=bestfit(blocks);
+    int place=nearfit(blocks);
     if (len == 0) return res;
     if (place==-1) return res;
-    bool use1 = use(index, blocks);
+    bool use1 = use(place, blocks);
     if (use1==false) return res;
-    //
-    for (int i = 0; i < blocks; ++i) {
+    int index=0;
+    for (int i = place; i < place + blocks; ++i) {
         string t;
         if(len-index>=BLOCK_SIZE) {
             t=s.substr(index, BLOCK_SIZE);
@@ -102,15 +106,21 @@ addr disk::write(string s) {
         else {
             t=s.substr(index);
         }
+//        cout<<"broke!"<<endl;
         index+=BLOCK_SIZE;
         datas[i].data=t;
+        datas[i].used=true;
     }
     res.begin=place;
+    res.length=len;
     return res;
 }
 string disk::read(int start, int len) {
     string res="";
-    for (int i = 0; i < start+len; ++i) {
+    int blocks=len/BLOCK_SIZE+1;
+    if(len%BLOCK_SIZE==0)blocks--;
+    for (int i = start; i < start+blocks; ++i) {
+//        cout<<"read 1 block"<<endl;
         if(datas[i].used==true) res+=datas[i].data;
     }
     return res;

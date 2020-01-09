@@ -25,6 +25,8 @@ public:
 
     void insert_here(node *p, info &t);
     void insert_child(node *p, info &t);
+    void insert_here(node *p, node *t);
+    void insert_child(node *p, node *t);
     node* find(node *p, info &t);
     void delete_child(node *p);
     void delete_self(node *p);

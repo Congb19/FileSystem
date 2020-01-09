@@ -24,18 +24,26 @@ public:
 
     string cmd();
     string dirname();
+    node* finddir(string path);
+    node* copy(node *origin);
+    node* copychildren(node *origin);
     void splitcmd(string cmd);
-
     void help(string cmd);
-    void ls();
     void exit();
+    void ls();
+    bool cd(string path);
+    void mkdir(string name);
+    void rm(string name);
+    void mv(string old1, string new1);
+    void cp(string path1, string path2);
+    void create(string name, string data);
 
     void go();
 
+    disk disk1;
 private:
     node *currdir;
     vector<string> currdirnames;
-    disk disk;
 };
 
 

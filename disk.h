@@ -11,7 +11,7 @@
 #include "node.h"
 
 #define DISK_SIZE 1000
-#define BLOCK_SIZE 5
+#define BLOCK_SIZE 8
 
 using namespace std;
 
@@ -38,7 +38,7 @@ public:
 
 private:
     vector<block> datas;
-    int frees;
+    int frees=DISK_SIZE;
 };
 
 
