@@ -17,7 +17,6 @@ struct addr {
 };
 struct info {
     string name;
-//    string type;
     addr addr;
 };
 

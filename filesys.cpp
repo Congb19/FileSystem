@@ -84,7 +84,7 @@ void filesys::splitcmd(string cmd) {
     else {
         cout<<"wrong command!"<<endl;
     }
-    cout<<"now: "<<currdir->data.name<<endl;
+//    cout<<"now: "<<currdir->data.name<<endl;
 }
 
 
@@ -208,11 +208,15 @@ void filesys::rm(string name) {
     info t;
     t.name=name;
     node *p=file.find(currdir->child, t);
-    if(p!=currdir->child) {
+    cout<<"p->data.name: "<<p->data.name<<endl;
+    cout<<"currdir->child->data.name: "<<currdir->child->data.name<<endl;
+    if(p->data.name!=currdir->child->data.name) {
+        cout<<"didi"<<endl;
         file.delete_self(p);
     }
     else {
         if (currdir->child->data.name==name) {
+            cout<<"big."<<endl;
             file.delete_self(p);
         }
     }
@@ -279,31 +283,41 @@ node* filesys::finddir(string path) {
     }
     return te;
 }
-node* filesys::copychildren(node *origin) {
+node* filesys::copychildren(node *origin, node *oripa) {
+    node *res;
     info t;
     t=origin->data;
-    node *res=new node(t);
+    res=new node(t);
     res->next=origin->next;
     res->child=origin->child;
-    if (res->next != nullptr) {
-        cout<<"rootnext, now origin = "<<origin->data.name<<endl;
-        res->next=copychildren(origin->next);
+    res->parent=oripa;
+    if(res->data.addr.begin!=-1) {
+        addr ad=disk1.write(disk1.read(origin->data.addr.begin, origin->data.addr.length));
+        res->data.addr = ad;
     }
+
     if (res->child!= nullptr) {
-        cout<<"rootchild, now origin = "<<origin->data.name<<endl;
-        res->child=copychildren(origin->child);
+        res->child=copychildren(origin->child, res);
+    }
+    if (res->next != nullptr) {
+        res->next=copychildren(origin->next, res->parent);
     }
     return res;
 }
-node* filesys::copy(node *origin) {
+node* filesys::copy(node *origin, node *oripa) {
     node *res;
     info t;
     t=origin->data;
     res=new node(t);
     res->child=origin->child;
-    if (res->child!= nullptr) {
+    res->parent=oripa;
+    if(res->data.addr.begin!=-1) {
+        addr ad=disk1.write(disk1.read(origin->data.addr.begin, origin->data.addr.length));
+        res->data.addr = ad;
+    }
+    else if (res->child!= nullptr) {
         cout<<"root1"<<endl;
-        res->child=copychildren(origin->child);
+        res->child=copychildren(origin->child, res);
     }
     return res;
 }
@@ -319,7 +333,8 @@ void filesys::cp(string path1, string path2){
         else if(currdir->child->data.name==p1->data.name) return;
     }
 
-    node *temp=copy(p1);
+    node *temp=copy(p1, p1->parent);
+
     if(p1== nullptr||p2== nullptr) {
         return;
     }
@@ -333,12 +348,14 @@ void filesys::cp(string path1, string path2){
     }
 }
 void filesys::create(string name, string data) {
+
     info t;
     t.name=name;
     if(currdir->child) {
         if(currdir->child!=file.find(currdir->child, t)) return;
         else if(currdir->child->data.name==name) return;
     }
+
     addr ad=disk1.write(data);
     t.addr=ad;
     if(currdir->child== nullptr) {

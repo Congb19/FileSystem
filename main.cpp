@@ -18,7 +18,7 @@ int main() {
 
     filesys1.disk1.write("asdfasfdsfsdaf");
     addr i{1,2};
-    info info1={"file1"},
+    info info1={"root"},
         info2={"file2"},
         info3={"file3"},
         info4={"file4"},
@@ -46,7 +46,7 @@ int main() {
 
     filesys1.file.show(filesys1.file.root, 0);
 
-    cout << filesys1.file.root->child->child->next->data.name << endl;
+//    cout << filesys1.file.root->child->child->next->data.name << endl;
 
     cout << "Hello, World!" << endl;
 

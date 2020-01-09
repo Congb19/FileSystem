@@ -54,6 +54,7 @@ node* tree::find(node *q, info &t) {
 }
 
 void tree::delete_child(node *q) {
+    cout<<"del child"<<endl;
     node *p=q->child;
     vector<node*> t;
     while (p!=nullptr) {
@@ -68,32 +69,42 @@ void tree::delete_child(node *q) {
 }
 
 void tree::delete_self(node *p) {
-    if (p->parent->child==p) {
+//    cout<<"del self"<<endl;
+//    cout<<"p->parent->data.name: "<<p->parent->data.name<<endl;
+//    cout<<"p->parent->child->data.name: "<<p->parent->child->data.name<<endl;
+//    cout<<"p->data.name: "<<p->data.name<<endl;
+    if (p->parent->child->data.name==p->data.name) {
+//        cout<<"i am biggest!"<<endl;
         p->parent->child=p->next;
+//        cout<<"now p.next is "<<p->next->data.name<<endl;
+//        cout<<"now p->parent->child is "<<p->parent->child->data.name<<endl;
     }
     else {
+//        cout<<"i am didi."<<endl;
         node *t=p->parent->child;
         while (t->next->data.name!=p->data.name){
             t=t->next;
         }
         t->next=p->next;
     }
-    delete_child(p);
-    delete(p);
+    //delete_child(p);
+//    delete(p);
 }
 
 void tree::show(node *q, int d) {
     node *p=q->child;
     if (p == nullptr) return;
     while (p!= nullptr) {
-        if (d != 0) {
-            cout << "|";
-        }
+//        if (d != 0) {
+//            cout << "|";
+//        }
         for (int i = 0; i < d*2; i++) {
             cout << " ";
         }
         cout << "+--";
         cout << p->data.name << endl;
+//        if(p->child== nullptr) cout << p->data.name << endl;
+//        else cout << p->data.name << ", erzi is "<<p->child->data.name<<endl;
         show(p, d+1);
         p = p->next;
     }

@@ -25,8 +25,8 @@ public:
     string cmd();
     string dirname();
     node* finddir(string path);
-    node* copy(node *origin);
-    node* copychildren(node *origin);
+    node* copy(node *origin, node *oripa);
+    node* copychildren(node *origin, node *oripa);
     void splitcmd(string cmd);
     void help(string cmd);
     void exit();
